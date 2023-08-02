@@ -18,11 +18,11 @@ nav {
   
   li a {
     text-decoration: none;
-    color: #fff;
+    color: #F5FF45;
     transition: 0.3s;
   }
   
   li a:hover {
-    color: #f9c800;
+    color: #FF67FF;
   }
   

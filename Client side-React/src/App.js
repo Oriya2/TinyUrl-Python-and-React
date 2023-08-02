@@ -1,6 +1,6 @@
 // App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 import Header from './components/Header';
 import GetLongUrl from './components/GetLongUrl';
 import GetShortUrl from './components/GetShortUrl';
@@ -13,6 +13,7 @@ function App() {
   const BASE_URL_SERVER = 'http://127.0.0.1:8000';
 
   return (
+ 
     <Router>
       <Header />
       <Routes>
@@ -22,6 +23,7 @@ function App() {
         <Route path="/allUrls" element={<GetAllUrls baseUrl={BASE_URL_SERVER}/>} />
       </Routes>
     </Router>
+   
   );
 }
 

@@ -1,0 +1,7 @@
+# config.py
+
+SLASH_REGEX = r"[a-zA-Z0-9/]+"
+MAX_RETRIES = 5
+URL_LENGTH = 6
+CHARACTERS_POOL = "ABCDEFHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+BASE_URL = 'http://127.0.0.1:8000/tinyUrl/'

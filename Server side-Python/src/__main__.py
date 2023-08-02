@@ -4,6 +4,7 @@ from fastapi import FastAPI, Path, Depends
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from psycopg2.pool import SimpleConnectionPool
+from config.const_variables import BASE_URL, SLASH_REGEX, MAX_RETRIES, URL_LENGTH, CHARACTERS_POOL
 
 app = FastAPI()
 
@@ -18,13 +19,6 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
-
-# Move these CONST's to a configuration file
-SLASH_REGEX = r"[a-zA-Z0-9/]+"
-MAX_RETRIES = 5
-URL_LENGTH = 6
-CHARACTERS_POOL = "ABCDEFHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-BASE_URL = 'http://127.0.0.1:8000/tinyUrl/'
 
 # Create a connection pool for the database
 def create_db_pool():

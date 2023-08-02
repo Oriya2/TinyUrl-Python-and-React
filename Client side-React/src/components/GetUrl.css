@@ -1,0 +1,112 @@
+.container {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5%;    
+}
+
+.header {
+font-size: 20px;
+margin-bottom: 20px;
+text-align: center;
+color: #67DB55;
+}
+
+.form {
+display: flex;
+align-items: center;
+margin-bottom: 20px;
+}
+
+.input {
+flex: 1;
+padding: 8px;
+margin-right: 10px;
+border-radius: 5px;
+border: none;
+background-color: lightblue; 
+}
+
+.button {
+    padding: 8px 20px;
+    border-radius: 5px;
+    border: none;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+
+.error-message {
+color: red;
+margin-bottom: 20px;
+}
+
+.result {
+margin-top: 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.short-url {
+font-size: 18px;
+color: #6EEAE5;
+}
+
+.direct-button {
+padding: 8px 20px;
+border-radius: 5px;
+border: none;
+background: #67DB55;
+color: white;
+cursor: pointer;
+margin-right: 10px;
+}
+
+.link {
+color: white;
+text-decoration: none;
+}
+
+.copy-button {
+padding: 8px 20px;
+border-radius: 5px;
+border: none;
+background: #67DB55;
+color: white;
+cursor: pointer;
+}
+
+p {
+    font-size: 18px;
+    color: white;
+    margin: 10px 0;
+    text-align: center;
+}
+
+td
+{
+    min-width: 300px;
+}
+
+tbody tr:nth-child(odd) {
+    color: aqua; 
+  }
+  
+tbody tr:nth-child(even) {
+    color: #67DB55; 
+  }
+
+  .header-all-url{
+    color: #FF67FF;
+  }
+
+th{
+    color:#F5FF45;
+}
