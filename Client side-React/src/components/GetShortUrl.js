@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./GetUrl.css";
 
 function GetShortUrl(props) {
   const [longUrl, setLongUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
+  const [shortUrlDirect, setShortUrlDirect] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
@@ -28,13 +29,20 @@ function GetShortUrl(props) {
         setShortUrl(response.data);
         setErrorMessage("");
       } else {
-        setErrorMessage("Long URL not found");
+        setErrorMessage("Tiny URL not found");
       }
     } catch (error) {
       console.error("Error:", error);
-      setErrorMessage("Long URL not found");
+      setErrorMessage("Tiny URL not found");
     }
   };
+
+  useEffect(() => {
+    // Update shortUrlDirect whenever shortUrl changes
+    if (shortUrl) {
+      setShortUrlDirect(shortUrl.endsWith("/") ? shortUrl.slice(0, -1) : shortUrl);
+    }
+  }, [shortUrl]);
 
   return (
     <div className="container">
@@ -61,7 +69,7 @@ function GetShortUrl(props) {
           <div className="buttons">
             <button className="direct-button">
               <a
-                href={shortUrl}
+                href={shortUrlDirect}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="link"

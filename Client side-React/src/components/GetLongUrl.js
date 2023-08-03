@@ -23,17 +23,16 @@ function GetLongUrl(props) {
       return;
     }
     try {
-      // Your code to fetch the long URL from the server...
-      // If the URL is not found, you can set the error message as follows:
-      const response = await fetch('your-api-url');
-      if (!response.ok) {
-        const errorData = await response.json();
-        setErrorMessage(errorData.error);
-        return;
+      const request = `${props.baseUrl}/tinyUrl/getLongUrl/${shortUrl}`;
+      console.log(request);
+      const response = await axios.get(request);
+      if (response.data) {
+        setLongUrl(response.data);
+        setErrorMessage("");
+      } else {
+        setErrorMessage("Long URL not found");
       }
-
-      // If the URL is found, process the response as usual...
-      const data = await response.json();
+    
       // Your code to handle the data...
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -60,6 +59,7 @@ function GetLongUrl(props) {
         </button>
       </form>
       {errorMessage && <p>{errorMessage}</p>}
+      {console.log('longUrl='+longUrl)}
       {longUrl && (
         <div className="result">
           <p className="short-url">Long URL: {longUrl}</p>
@@ -72,7 +72,7 @@ function GetLongUrl(props) {
                 className="link"
               >
                 Direct to URL
-              </a>{" "}
+              </a>
             </button>
             <button
               className="copy-button"

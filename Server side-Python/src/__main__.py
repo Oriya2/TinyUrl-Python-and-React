@@ -21,6 +21,7 @@ app.add_middleware(
 )
 
 # Create a connection pool for the database
+
 def create_db_pool():
     connection_string = "dbname='tinyurldb' user='docker' password='docker' host='localhost'"
     return SimpleConnectionPool(minconn=1, maxconn=10, dsn=connection_string)
@@ -34,6 +35,30 @@ def get_db_connection():
     finally:
         db_pool.putconn(connection)
 
+
+def create_url_mapping_table(db_connection):
+    with db_connection.cursor() as cursor:
+        try:
+            cursor.execute("SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_name='url_mapping')")
+            table_exists = cursor.fetchone()[0]
+            if not table_exists:
+                cursor.execute("""
+                    CREATE TABLE url_mapping (
+                        short_url varchar(100) NOT NULL PRIMARY KEY,
+                        long_url text NOT NULL
+                    );
+                """)
+                db_connection.commit()
+        except Exception as e:
+            print(f"Error creating table: {e}")
+            db_connection.rollback()
+
+@app.on_event("startup")
+async def startup_event():
+    db_connection = db_pool.getconn()
+    create_url_mapping_table(db_connection)
+    db_pool.putconn(db_connection)
+
 def generate_tiny_url():
     return ''.join(random.choice(CHARACTERS_POOL) for _ in range(URL_LENGTH))
 
@@ -43,8 +68,8 @@ def create_tiny_url(long_url, db_connection):
     i = 0
     while i < MAX_RETRIES:
         try:
-            # Insert the shortened URL into the database
-            cursor.execute("INSERT INTO url_mapping (short_url, long_url) VALUES (%s, %s)", (f"{BASE_URL}{tiny_code}/", long_url))
+        # Insert the shortened URL into the database
+            cursor.execute("INSERT INTO url_mapping (short_url, long_url) VALUES (%s, %s)", (f"{BASE_URL}{tiny_code}", long_url))
             db_connection.commit()
             cursor.close()
             break
@@ -69,7 +94,7 @@ async def get_all_urls(db_connection = Depends(get_db_connection)):
 async def get_short_url(longUrl:str = Path(...), db_connection = Depends(get_db_connection)):
 
     with db_connection.cursor() as cursor:
-        longUrl = longUrl.replace("{", "").replace("}", "")
+        # longUrl = longUrl.replace("{", "").replace("}", "")
         query = "SELECT * FROM url_mapping WHERE long_url = %s;"
         cursor.execute(query, (longUrl,))
         result = cursor.fetchone()
@@ -89,14 +114,14 @@ async def get_long_url(shortUrl:str = Path(..., regex=SLASH_REGEX), db_connectio
         result = cursor.fetchone()
 
     if result is None:
-        return {"error": "Short URL not found"}
+        return {"error1": "Short URL not found"}
     return result[1]
 
 
 @app.get("/tinyUrl/{longUrl:path}")
-async def direct(longUrl: str = Path(..., regex=SLASH_REGEX), redirect: bool = True, db_connection = Depends(get_db_connection)):
+async def direct(longUrl: str = Path(..., regex=SLASH_REGEX), db_connection = Depends(get_db_connection), redirect: bool = True):
     with db_connection.cursor() as cursor:
-        longUrl = longUrl.replace("{", "").replace("}", "")
+        longUrl = longUrl.rstrip("/")
         # return longUrl
         query = "SELECT * FROM url_mapping WHERE short_url = %s;"
         cursor.execute(query, (f"{BASE_URL}{longUrl}",))
@@ -111,4 +136,4 @@ async def direct(longUrl: str = Path(..., regex=SLASH_REGEX), redirect: bool = T
             # Return the long URL without redirecting
             return {"long URL": result[1]}
     # If the short URL is not found, return an error response
-    return {"error": "Short URL not found"}
+    return {"error2": "Short URL not found"}

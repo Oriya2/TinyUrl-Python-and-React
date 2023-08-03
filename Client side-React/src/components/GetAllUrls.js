@@ -24,9 +24,9 @@ function GetAllUrls(props) {
       <p className='header-all-url'>This is the list of all tiny URL and the corresponding long URL</p>
       <table>
       <thead>
-        <tr>
-          <th>Long URL</th>
+        <tr> 
           <th>Tiny URL</th>
+          <th>Long URL</th>
         </tr>
       </thead>
       <tbody>
