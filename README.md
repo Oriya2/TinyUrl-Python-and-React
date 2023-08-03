@@ -50,19 +50,20 @@ This repository contains the code for the Tiny URL project, a URL shortening and
    cd '.\TinyUrl-Python-and-React\Server side-Python\'
    ```
 4. **Create virtual env**: Run the follow commands on the ide terminal:
-   windows:
-   ```bash
-   pip install virtualenv
-   virtualenv venv
-   venv\Scripts\activate
-   ```
+   
+      **windows**:
+      ```bash
+      pip install virtualenv
+      virtualenv venv
+      venv\Scripts\activate
+      ```
 
-   macOS/Linux:
-   ```bash
-   pip3 install virtualenv
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+      **macOS/Linux:**
+      ```bash
+      pip3 install virtualenv
+      python3 -m venv venv
+      source venv/bin/activate
+      ```
 
 5. **Install Dependencies**: Install the required Python packages by running:
 
