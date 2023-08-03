@@ -55,7 +55,7 @@ This repository contains the code for the Tiny URL project, a URL shortening and
    pip install virtualenv
    virtualenv venv
    venv\Scripts\activate
-   '''
+   ```
 
    macOS/Linux:
    ```bash
